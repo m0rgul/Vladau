@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/ng-table.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/sb-admin-2.css"/>
+    <link rel="stylesheet" href="css/metisMenu.min.css"/>
+    <link rel="stylesheet" href="css/font-awesome.min.css"/>
+</head>
+
+<body ng-app="homepageApp" ng-cloak>
+<div id="wrapper">
+    <nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0" role="navigation"
+         ng-controller="menuCtrl">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/admin">
+                <img src="/img/PDA_logo.png">
+            </a>
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li>
+                        <a ng-href="#/settings"><i class="fa fa-gear fa-fw"></i> Setari Cont</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Deconectare</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <% if (user.userControl !== undefined && user.userControl == true) { %>
+                    <li ng-class="menuClass('users')">
+                        <a href="#/users"><i class="fa fa-users"></i> Utilizatori (Administratori)</a>
+                    </li>
+                    <% } %>
+
+                    <% if (user.doctorControl !== undefined && user.doctorControl == true) { %>
+                    <li ng-class="menuClass('doctors')">
+                        <a href="#/doctors"><i class="fa fa-user-md"></i> Doctori</a>
+                    </li>
+                    <% } %>
+
+                    <li ng-class="menuClass('patients')">
+                        <a href="#/patients"><i class="fa fa-user"></i> Pacienti</a>
+                    </li>
+
+                    <li ng-class="menuClass('files')">
+                        <a href="#/files"><i class="fa fa-files-o"></i> Fisiere</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="page-wrapper" ng-view ng-cloak></div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row logos">
+                <div class="logo">
+                    <p>
+                        copyright
+                        <a href="http://fabulous-fi.eu/" target="_blank" title="">
+                            <img src="/img/PDA_logo.png" alt="Logo" class="img-responsive"/>
+                        </a>
+                    </p>
+                </div>
+
+                <div class="logo">
+                    <p>
+                        created by
+                        <a href="http://bluemind-software.ro/" target="_blank" title="BlueMind Software">
+                            <img src="/img/bluemind.png" alt="Bluemind Logo" class="img-responsive blu"/>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row helpText">
+            <p class="text-center">
+                Pentru informatii, intrebari, feedback, va rugam sa ne trimiteti un e-mail la
+                <a href="mailto:feedback@bluemind-software.ro?subject=Hefast Feedback" class="hvr-icon-drop">
+                    feedback@bluemind-software.ro
+                </a>
+            </p>
+        </div>
+    </footer>
+</div>
+
+<script src="js/angular.js"></script>
+<script src="js/angular-resource.js"></script>
+<script src="js/angular-route.js"></script>
+<script src="js/ngTable.js"></script>
+<script src="js/angular/admin/homepage.js"></script>
+<script src="js/ui-bootstrap-1.1.0.min.js"></script>
+<script src="js/ng-file-upload-shim.js"></script>
+<script src="js/ng-file-upload.min.js"></script>
+
+<% if (user.userControl !== undefined && user.userControl == true) { %>
+<script src="js/angular/admin/usersCtrl.js"></script>
+<% } %>
+
+<% if (user.doctorControl !== undefined && user.doctorControl == true) { %>
+<script src="js/angular/admin/doctorsCtrl.js"></script>
+<% } %>
+
+<script src="js/angular/admin/patientsCtrl.js"></script>
+<script src="js/angular/admin/filesCtrl.js"></script>
+<script src="js/angular/admin/menuCtrl.js"></script>
+<script src="js/angular/admin/accountSettings.js"></script>
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
+<script src="js/metisMenu.js"></script>
+<script src="js/sb-admin-2.js"></script>
+<script src="js/forge-sha256.min.js"></script>
+</body>
+</html>

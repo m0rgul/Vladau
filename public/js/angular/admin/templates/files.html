@@ -1,0 +1,143 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Fisiere</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+
+<div class="row" ng-cloak>
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Lista fisierelor pacientilor
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper table-responsive">
+                    <div class="row">
+                        <button class="btn btn-success pull-right newPuBtn" ng-click="newFilePU()">
+                            <i class="fa fa-plus-square"></i>&nbsp;&nbsp;
+                            Adaugare fisier nou
+                        </button>
+                    </div>
+                    <table ng-table="tableParams"
+                           class="table table-bordered table-striped table-condensed table-hover">
+                        <tr ng-repeat="row in $data" ng-click="openModal(row)" class="rowClick">
+                            <p>{{row}}</p>
+                            <td class="col-md-1" data-title="'index'" filter="{'f.id': 'number'}" sortable="'id'">
+                                {{row.id}}
+                            </td>
+
+                            <td class="col-md-2" data-title="'Titlu fisier'" filter="{'f.title': 'text'}"
+                                sortable="'f.title'">
+                                {{row.title}}
+                            </td>
+
+                            <td class="col-md-1" data-title="'Data fisier'" sortable="'f.date_time'">
+                                {{row.date | date}}
+                            </td>
+
+                            <td class="col-md-2" data-title="'Numele pacientului'" filter="{'p.fullName': 'text'}"
+                                sortable="'p.fullName'">
+                                {{row.patient}}
+                            </td>
+
+                            <td class="col-md-2" data-title="'Doctorul pacientului'" filter="{'d.fullName': 'text'}"
+                                sortable="'d.fullName'">
+                                Dr. {{row.doctor}}
+                            </td>
+
+                            <td class="col-md-4" data-title="'Remarci'">
+                                {{row.comments}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="file.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Adaugare fisier nou</h3>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="fileForm" novalidate autocomplete="off">
+            <div class="form-group"
+                 ng-class="{'has-success' : fileForm.title.$valid && !fileForm.title.$pristine, 'has-error' : fileForm.title.$invalid && fileForm.title.$touched}">
+                <label>Titlu fisier *</label>
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-file fa-lg fa-fw"></i></span>
+                    <input type="text" ng-model="file.title" required class="form-control"
+                           placeholder="Titlu fisier" name="title">
+                </div>
+                <span class="help-block text-center"
+                      ng-show="fileForm.title.$invalid && fileForm.title.$touched">Va rugam sa introduceti un titlu pentru fisier.</span>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{'has-success' : fileForm.file.$valid && !fileForm.file.$pristine, 'has-error' : fileForm.file.$invalid && fileForm.file.$touched}">
+                <label>Fisier *</label>
+
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <div class="btn btn-primary btn-file">
+                            Selectati fisier
+                            <input type="file" ngf-select ng-model="file.file" name="file" class="form-control"
+                                   accept=".dcm" ng-required="!file.edit" ngf-pattern="'.dcm'">
+                        </div>
+                    </div>
+                    <input type="text" readonly="true" class="form-control" ng-model="file.file.name">
+                </div>
+                <span class="help-block text-center" ng-show="fileForm.file.$invalid && fileForm.file.$touched">Va rugam sa selectati un fisier.</span>
+                <span class="help-block text-center" ng-show="fileForm.file.$error.pattern && fileForm.file.$touched">Format invalid.</span>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{'has-success' : fileForm.patient.$valid && !fileForm.patient.$pristine, 'has-error' : fileForm.patient.$invalid && fileForm.patient.$touched}">
+                <label>Pacient *</label>
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user fa-lg fa-fw"></i></span>
+                    <select name="patient" class="form-control"
+                            ng-options="patient.fullName for patient in patientsList.options track by patient.id"
+                            ng-model="patientsList.selectedOption" required>
+                    </select>
+
+
+                    <!--<select name="patient" ng-model="file.patient" class="form-control" required>
+                        <option ng-repeat="patient in patientsList" value="{{patient.id}}">{{patient.fullName}} (Dr.
+                            {{patient.doctor}})
+                        </option>
+                    </select>-->
+                </div>
+                <span class="help-block text-center" ng-show="fileForm.patient.$invalid && fileForm.patient.$touched">Va rugam sa selectati un pacient din lista de pacienti.</span>
+            </div>
+
+            <div class="form-group">
+                <label>Remarci</label>
+                <textarea name="comments" ng-model="file.comments" class="form-control" rows="3"></textarea>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <uib-progressbar value="fileProgress" ng-if="isUploading">
+            <span style="color:white; white-space:nowrap;">{{fileProgress}}% </span>
+        </uib-progressbar>
+        <button class="btn btn-primary" type="button" ng-click="uploadFile(file.file)"
+                ng-disabled="fileForm.$invalid || isUploading">
+            <i class="fa fa-spinner fa-pulse" ng-if="isUploading"></i>
+            Salvare fisier
+        </button>
+
+        <a class="btn btn-success" type="button" ng-href="{{file.url}}" ng-show="file.edit">
+            <i class="fa fa-download"></i> Descarcare
+        </a>
+
+        <button class="btn btn-warning" type="button" ng-click="cancel()" ng-disabled="isUploading">Anulare</button>
+    </div>
+</script>

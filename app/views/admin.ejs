@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include template/head.ejs %>
+</head>
+<body id="login">
+
+<div id="loginWindow">
+    <img src="/img/PDA_logo.png" alt="logo" class="logoImg img-responsive"/>
+
+    <form id="loginForm">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-user-md fa-lg"></i>
+            </span>
+            <input type="text" class="form-control" placeholder="Nume utilizator" aria-describedby="sizing-addon1"
+                   name="username" required autofocus>
+        </div>
+
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-unlock fa-lg"></i>
+            </span>
+            <input type="password" class="form-control" placeholder="Parola" aria-describedby="sizing-addon1"
+                   name="password" required>
+        </div>
+
+        <div id="message">
+            <p id="loginError"></p>
+        </div>
+
+        <button class="btn btn-success center-block" type="submit" id="loginBtn">Autentificare</button>
+        <div class="loginFooter">
+            <p class="forgotPass"><a href="/forgot/user">Ati uitat parola?</a></p>
+
+            <p class="contactUs">Aveti nevoie de ajutor? <a href="#">Contactati-ne aici.</a></p>
+        </div>
+    </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="/js/forge-sha256.min.js"></script>
+<script src="/js/adminLogin.js"></script>
+</body>
+</html>

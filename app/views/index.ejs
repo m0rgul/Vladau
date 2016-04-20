@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include template/head.ejs %>
+</head>
+<body id="login" ng-app="doctorRegister" ng-cloak>
+
+<div id="loginWindow" class="docLogin">
+    <form id="loginForm">
+        <img src="img/PDA_logo.png" alt="logo" class="logoImg img-responsive"/>
+
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-user-md fa-lg"></i>
+            </span>
+            <input type="text" class="form-control" placeholder="Nume utilizator" aria-describedby="sizing-addon1"
+                   name="username" required autofocus>
+        </div>
+
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-unlock fa-lg"></i>
+            </span>
+            <input type="password" class="form-control" placeholder="Parola" aria-describedby="sizing-addon1"
+                   name="password" id="password" required>
+        </div>
+
+        <div id="message">
+            <p id="loginError"></p>
+        </div>
+
+        <button class="btn btn-success center-block" type="submit" id="loginBtn">Autentificare</button>
+
+        <button class="btn btn-info center-block registerBtn" type="button" onclick="openRegister()">Inregistrare
+        </button>
+
+
+        <div class="loginFooter">
+            <p class="forgotPass"><a href="/forgot/doctor">Ati uitat parola?</a></p>
+
+            <p class="contactUs">Aveti nevoie de ajutor? <a href="#">Contactati-ne aici.</a></p>
+        </div>
+    </form>
+
+    <form id="registerForm" name="registerForm" ng-controller="registerController" novalidate autocomplete="off">
+        <h3>Inregistrare utilizator</h3>
+
+        <div class="form-group"
+             ng-class="{'has-error' : registerForm.fullName.$invalid && !registerForm.fullName.$pristine, 'has-success' : registerForm.fullName.$valid && !registerForm.fullName.$pristine}">
+            <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-user-md fa-lg fa-fw"></i>
+            </span>
+                <input type="text" class="form-control" placeholder="Nume Complet" aria-describedby="sizing-addon1"
+                       name="fullName" required ng-model="doc.fullName" ng-model-options="{ updateOn: 'blur' }"
+                       ng-pattern="fullNameRegex">
+            </div>
+            <span class="help-block text-center"
+                  ng-show="registerForm.fullName.$invalid && !registerForm.fullName.$pristine">Va rugam sa introduceti numele complet.</span>
+        </div>
+
+        <div class="form-group"
+             ng-class="{'has-error' : registerForm.address.$invalid && !registerForm.address.$pristine, 'has-success' : registerForm.address.$valid && !registerForm.address.$pristine}">
+            <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-map-marker fa-lg fa-fw"></i>
+            </span>
+                <input type="text" class="form-control" placeholder="Adresa" aria-describedby="sizing-addon1"
+                       name="address" required ng-model="doc.address" ng-model-options="{ updateOn: 'blur' }">
+            </div>
+            <span class="help-block text-center"
+                  ng-show="registerForm.address.$invalid && !registerForm.address.$pristine">Va rugam sa introduceti adresa.</span>
+        </div>
+
+        <div class="form-group"
+             ng-class="{'has-error' : registerForm.phoneNo.$invalid && !registerForm.phoneNo.$pristine, 'has-success' : registerForm.phoneNo.$valid && !registerForm.phoneNo.$pristine}">
+            <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-mobile fa-lg fa-fw"></i>
+            </span>
+                <input type="text" class="form-control" placeholder="Numar de telefon" aria-describedby="sizing-addon1"
+                       name="phoneNo" required ng-model="doc.phoneNo" ng-model-options="{ updateOn: 'blur' }"
+                       ng-pattern="phoneRegex">
+            </div>
+            <span class="help-block text-center"
+                  ng-show="registerForm.phoneNo.$invalid && !registerForm.phoneNo.$pristine">
+                Introduceti numarul de telefon fara spatii sau alte caractere. <br/>
+                <i>(07xxxxxxxx)</i>
+            </span>
+        </div>
+
+        <div class="form-group"
+             ng-class="{'has-error' : registerForm.email.$invalid && !registerForm.email.$pristine, 'has-success' : registerForm.email.$valid && !registerForm.email.$pristine}">
+            <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-envelope fa-lg fa-fw"></i>
+            </span>
+                <input type="email" class="form-control" placeholder="Email" aria-describedby="sizing-addon1"
+                       name="email" required ng-model="doc.email" ng-model-options="{ updateOn: 'blur' }">
+            </div>
+            <span class="help-block text-center"
+                  ng-show="registerForm.email.$invalid && !registerForm.email.$pristine && !registerForm.email.$error.unique">Format email invalid.</span>
+            <span class="help-block text-center"
+                  ng-show="registerForm.email.$error.unique && !registerForm.email.$pristine">Acest email este deja inregistrat.</span>
+        </div>
+
+        <div class="form-group"
+             ng-class="{'has-error' : registerForm.username.$invalid && !registerForm.username.$pristine, 'has-success' : registerForm.username.$valid && !registerForm.username.$pristine}">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-user-md fa-lg fa-fw"></i></span>
+                <input type="text" class="form-control" placeholder="Nume utilizator" aria-describedby="sizing-addon1"
+                       name="username" required ng-model="doc.username" ng-model-options="{ updateOn: 'blur' }"
+                       ng-minlength="6">
+            </div>
+             <span class="help-block text-center"
+                   ng-show="registerForm.username.$error.unique && !registerForm.username.$pristine && !registerForm.username.$error.minlength">Acest nume de utilizator este deja folosit.</span>
+            <span class="help-block text-center"
+                  ng-show="registerForm.username.$error.minlength && !registerForm.username.$pristine">Numele de utilizator trebuie sa aiva cel putin 6 caractere.</span>
+        </div>
+
+        <div class="form-group"
+             ng-class="{'has-error' : registerForm.password.$invalid && !registerForm.password.$pristine, 'has-success' : registerForm.password.$valid && !registerForm.password.$pristine}">
+            <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-unlock fa-lg fa-fw"></i>
+            </span>
+                <input type="password" class="form-control" placeholder="Parola" aria-describedby="sizing-addon1"
+                       name="password" required ng-model="doc.password" ng-model-options="{ updateOn: 'blur' }"
+                       ng-minlength="8">
+            </div>
+            <span class="help-block text-center"
+                  ng-show="registerForm.password.$error.minlength && !registerForm.password.$pristine">Parola trebuie sa aiva cel putin 8 caractere.</span>
+            <span class="help-block text-center"
+                  ng-show="!registerForm.password.$error.minlength && registerForm.password.$invalid && !registerForm.password.$pristine">Parola trebuie sa contina cel putin o litera mica, o cifra si o litera mare.</span>
+        </div>
+
+        <div class="form-group"
+             ng-class="{'has-error' : registerForm.password2.$invalid && !registerForm.password2.$pristine, 'has-success' : registerForm.password2.$valid && !registerForm.password2.$pristine}">
+            <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-unlock fa-lg fa-fw"></i>
+            </span>
+                <input type="password" class="form-control" placeholder="Repetati parola"
+                       aria-describedby="sizing-addon1" name="password2" required ng-model="doc.password2">
+            </div>
+           <span class="help-block text-center"
+                 ng-show="registerForm.password2.$error.match && !registerForm.password2.$pristine">Parolele nu se potrivesc.</span>
+        </div>
+
+        <button class="btn btn-success center-block" type="button" ng-click="submitRegister()"
+                ng-disabled="registerForm.$invalid">Inregistrare
+        </button>
+        <button class="btn btn-danger center-block registerBtn" type="button" onclick="cancelRegister()">Renuntare
+        </button>
+    </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="js/forge-sha256.min.js"></script>
+<script src="js/angular.js"></script>
+<script src="js/registerDoctor.js"></script>
+</body>
+</html>

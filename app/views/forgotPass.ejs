@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include template/head.ejs %>
+</head>
+<body id="forgotPass" ng-app="forgotPass">
+
+<div id="passRecovery" ng-controller="forgotPassCtrl">
+    <form id="passRecoveryForm" name="passRecoveryForm">
+        <img src="/img/PDA_logo.png" alt="logo" class="logoImg img-responsive"/>
+        <div class="form-group"
+             ng-class="{'has-error' : passRecoveryForm.email.$invalid && !passRecoveryForm.email.$pristine, 'has-success' : passRecoveryForm.email.$valid && !passRecoveryForm.email.$pristine}">
+            <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-envelope fa-lg fa-fw"></i>
+            </span>
+                <input type="email" class="form-control" placeholder="Email" aria-describedby="sizing-addon1"
+                       name="email" required ng-model="user.email" ng-model-options="{ updateOn: 'blur' }">
+            </div>
+            <span class="help-block text-center"
+                  ng-show="passRecoveryForm.email.$invalid && !passRecoveryForm.email.$pristine && !passRecoveryForm.email.$error.unique">Format email invalid.</span>
+            <span class="help-block text-center"
+                  ng-show="passRecoveryForm.email.$error.unique && !passRecoveryForm.email.$pristine">Acest email nu exista in baza de date.</span>
+        </div>
+        <input type="hidden" id="level" name="level" value="<%= user.level %>"/>
+
+        <button class="btn btn-success center-block" type="button" ng-click="submitRegister()"
+                ng-disabled="registerForm.$invalid">Resetare parola
+        </button>
+    </form>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="/js/angular.js"></script>
+<script src="/js/passForgot.js"></script>
+
+</body>
+</html>

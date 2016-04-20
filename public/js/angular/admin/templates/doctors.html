@@ -1,0 +1,127 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Doctori Inregistrati</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+
+<div class="row" ng-cloak>
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Lista doctorilor inregistrati
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper table-responsive">
+                    <div class="row">
+                        <button class="btn btn-success pull-right newPuBtn" ng-click="newDocPU()">
+                            <i class="fa fa-plus-square"></i>&nbsp;&nbsp;
+                            Adaugare Doctor Nou
+                        </button>
+                    </div>
+                    <table ng-table-dynamic="tableParams with cols"
+                           class="table table-bordered table-striped table-hover">
+                        <tr ng-repeat="row in $data" ng-click="openModal(row)" class="rowClick">
+                            <td ng-repeat="col in $columns">{{row[col.field]}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="doctors.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{doc.action}}</h3>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="doctorForm" novalidate autocomplete="off">
+            <div class="form-group">
+                <div class="form-group"
+                     ng-class="{'has-error' : doctorForm.fullName.$invalid && !doctorForm.fullName.$pristine, 'has-success' : doctorForm.fullName.$valid && !doctorForm.fullName.$pristine}">
+                    <label>Numele Doctorului *</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user-md fa-lg fa-fw"></i></span>
+                        <input type="text" class="form-control" placeholder="Numele Doctorului"
+                               aria-describedby="sizing-addon1"
+                               name="fullName" required ng-model="doc.fullName" ng-model-options="{ updateOn: 'blur' }"
+                               ng-pattern="fullNameRegex">
+                    </div>
+                    <span class="help-block text-center"
+                          ng-show="doctorForm.fullName.$invalid && !doctorForm.fullName.$pristine">Va rugam sa introduceti numele complet.</span>
+                </div>
+
+                <div class="form-group"
+                     ng-class="{'has-error' : doctorForm.address.$invalid && !doctorForm.address.$pristine, 'has-success' : doctorForm.address.$valid && !doctorForm.address.$pristine}">
+                    <label>Adresa doctorului *</label>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-map-marker fa-lg fa-fw"></i></span>
+                        <input type="text" class="form-control" placeholder="Adresa doctorului" aria-describedby="sizing-addon1"
+                               name="address" required ng-model="doc.address" ng-model-options="{ updateOn: 'blur' }">
+                    </div>
+                    <span class="help-block text-center"
+                          ng-show="doctorForm.address.$invalid && !doctorForm.address.$pristine">Va rugam sa introduceti adresa.</span>
+                </div>
+
+                <div class="form-group"
+                     ng-class="{'has-error' : doctorForm.phoneNo.$invalid && !doctorForm.phoneNo.$pristine, 'has-success' : doctorForm.phoneNo.$valid && !doctorForm.phoneNo.$pristine}">
+                    <label>Numarul de telefon al doctorului *</label>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-mobile fa-lg fa-fw"></i></span>
+                        <input type="text" class="form-control" placeholder="Numar de telefon"
+                               aria-describedby="sizing-addon1" name="phoneNo" required ng-model="doc.phoneNo"
+                               ng-model-options="{ updateOn: 'blur' }" ng-pattern="phoneRegex">
+                    </div>
+                    <span class="help-block text-center"
+                          ng-show="doctorForm.phoneNo.$invalid && !doctorForm.phoneNo.$pristine">Va rugam sa introduceti un numar de telefon valid.</span>
+                </div>
+
+                <div class="form-group"
+                     ng-class="{'has-error' : doctorForm.email.$invalid && !doctorForm.email.$pristine, 'has-success' : doctorForm.email.$valid && !doctorForm.email.$pristine}">
+                    <label>Adresa email a doctorului *</label>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-envelope fa-lg fa-fw"></i></span>
+                        <input type="email" class="form-control" placeholder="Email" aria-describedby="sizing-addon1"
+                               name="email" required ng-model="doc.email" ng-model-options="{ updateOn: 'blur' }">
+                    </div>
+                    <span class="help-block text-center"
+                          ng-show="doctorForm.email.$invalid && !doctorForm.email.$pristine && !doctorForm.email.$error.unique">Format email invalid.</span>
+                    <span class="help-block text-center"
+                          ng-show="doctorForm.email.$error.unique && !doctorForm.email.$pristine">Acest email este deja inregistrat.</span>
+                </div>
+
+                <div class="form-group" ng-if="!doc.edit"
+                     ng-class="{'has-error' : doctorForm.username.$invalid && !doctorForm.username.$pristine, 'has-success' : doctorForm.username.$valid && !doctorForm.username.$pristine}">
+                    <label>Numele de utilizator *</label>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user-md fa-lg fa-fw"></i></span>
+                        <input type="text" class="form-control" placeholder="Nume utilizator"
+                               aria-describedby="sizing-addon1" name="username" required ng-model="doc.username"
+                               ng-model-options="{ updateOn: 'blur' }" ng-minlength="6">
+                    </div>
+                    <span class="help-block text-center"
+                          ng-show="doctorForm.username.$error.unique && !doctorForm.username.$pristine && !doctorForm.username.$error.minlength">Acest nume de utilizator este deja folosit.</span>
+                    <span class="help-block text-center"
+                          ng-show="doctorForm.username.$error.minlength && !doctorForm.username.$pristine">Numele de utilizator trebuie sa aiva cel putin 6 caractere.</span>
+                </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()"
+                ng-disabled="doctorForm.$invalid">
+            Salvare doctor
+        </button>
+        <button class="btn btn-danger" type="button" ng-click="delete()" ng-show="doc.edit">
+            Stergere doctor
+        </button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Anulare</button>
+    </div>
+</script>

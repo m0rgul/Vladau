@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/ng-table.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/sb-admin-2.css"/>
+    <link rel="stylesheet" href="css/metisMenu.min.css"/>
+    <link rel="stylesheet" href="css/font-awesome.min.css"/>
+</head>
+
+<body ng-app="doctorHomeApp" id="doctorPage" ng-controller="doctorHomeCtrl">
+<nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+            <img src="/img/PDA_logo.png">
+        </a>
+    </div>
+
+    <ul class="nav navbar-top-links navbar-right">
+        <li>
+            <a href="#" class="appDownload">
+                <i class="fa fa-download fa-2x"></i>
+                <p>
+                    Descarcati gratuit
+                    <span>Planmeca Romexis Viewer &reg;</span>
+                </p>
+            </a>
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer">
+                <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+                <li>
+                    <a ng-href="#" ng-click="userSettings()">
+                        <i class="fa fa-gear fa-fw"></i> Setari Cont
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Deconectare</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4" id="patientList">
+            <div class="row columnHeader">
+                <h3>Lista pacienti</h3>
+
+                <div id="searchPatients">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user fa-fw fa-lg"></i></span>
+                        <input type="text" class="form-control" placeholder="Cauta pacient..."
+                               ng-model="patientSearch"
+                               ng-model-options="{debounce: { 'default': 500, 'blur': 0 }}"/>
+                            <span class="input-group-btn clearSearch">
+                                <button class="btn btn-default" type="button" ng-click="clearSearch('patient')">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row columnContent">
+                <div class="list-group">
+                    <a ng-repeat="patient in patientList" class="list-group-item"
+                       ng-click="getPatientFiles(patient.id)"
+                       href="#">
+                        <span>{{patient.fullName}}</span>
+                        <i class="fa fa-arrow-right fa-lg pull-right"></i>
+                    </a>
+                </div>
+            </div>
+            <small class="help-block">Dati click pe un pacient pentru a vedea o lista cu fisierele asociate.</small>
+        </div>
+        <div class="col-md-8" id="patientFiles">
+            <div class="row columnHeader">
+                <div class="patientHeader">
+                    <h3>Fisierele pacientului <i>{{patientFiles[0].patient}}</i></h3>
+                </div>
+
+                <div id="fileSearch">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-file fa-fw fa-lg"></i></span>
+                        <input type="text" class="form-control" placeholder="Cauta fisier..."
+                               ng-model="fileSearch"
+                               ng-model-options="{debounce: { 'default': 500, 'blur': 0 }}"/>
+                        <span class="input-group-btn clearSearch">
+                            <button class="btn btn-default" type="button" ng-click="clearSearch('file')">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row columnContent">
+                <div id="patientFileList" ng-if="patientFiles.length>0">
+                    <div class="list-group">
+                        <a ng-href="{{file.url}}" class="list-group-item" ng-repeat="file in patientFiles">
+                            <h4 class="list-group-item-heading">{{file.title}}</h4>
+                            <span class="help-block pull-right">Data: {{file.date | date:"dd/MM/yyyy 'at' hh:mm"}}</span>
+
+                            <p class="list-group-item-text">{{file.comments}}</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <small class="help-block">Dati click pe un fisier pentru a-l descarca.</small>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row logos">
+            <div class="logo">
+                <p>
+                    copyright
+                    <a href="http://fabulous-fi.eu/" target="_blank" title="">
+                        <img src="/img/PDA_logo.png" alt="Logo" class="img-responsive"/>
+                    </a>
+                </p>
+            </div>
+
+            <div class="logo">
+                <p>
+                    created by
+                    <a href="http://bluemind-software.ro/" target="_blank" title="BlueMind Software">
+                        <img src="/img/bluemind.png" alt="Bluemind Logo" class="img-responsive blu"/>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row helpText">
+        <p class="text-center">
+            Pentru informatii, intrebari, feedback, va rugam sa ne trimiteti un e-mail la
+            <a href="mailto:feedback@bluemind-software.ro?subject=Hefast Feedback" class="hvr-icon-drop">
+                feedback@bluemind-software.ro
+            </a>
+        </p>
+    </div>
+</footer>
+
+<script type="text/ng-template" id="userSettings.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Setari cont</h3>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="docSettings" novalidate autocomplete="off">
+            <div class="form-group"
+                 ng-class="{'has-error' : docSettings.fullName.$invalid && !docSettings.fullName.$pristine, 'has-success' : docSettings.fullName.$valid && !docSettings.fullName.$pristine}">
+                <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-user-md fa-lg fa-fw"></i>
+            </span>
+                    <input type="text" class="form-control" placeholder="Nume Complet" aria-describedby="sizing-addon1"
+                           name="fullName" required ng-model="doc.fullName" ng-pattern="fullNameRegex">
+                </div>
+            <span class="help-block text-center"
+                  ng-show="docSettings.fullName.$invalid && !docSettings.fullName.$pristine">Va rugam sa introduceti numele complet.</span>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{'has-error' : docSettings.address.$invalid && !docSettings.address.$pristine, 'has-success' : docSettings.address.$valid && !docSettings.address.$pristine}">
+                <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-map-marker fa-lg fa-fw"></i>
+            </span>
+                    <input type="text" class="form-control" placeholder="Adresa" aria-describedby="sizing-addon1"
+                           name="address" required ng-model="doc.address">
+                </div>
+            <span class="help-block text-center"
+                  ng-show="docSettings.address.$invalid && !docSettings.address.$pristine">Va rugam sa introduceti adresa.</span>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{'has-error' : docSettings.phoneNo.$invalid && !docSettings.phoneNo.$pristine, 'has-success' : docSettings.phoneNo.$valid && !docSettings.phoneNo.$pristine}">
+                <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-mobile fa-lg fa-fw"></i>
+            </span>
+                    <input type="text" class="form-control" placeholder="Numar de telefon"
+                           aria-describedby="sizing-addon1"
+                           name="phoneNo" required ng-model="doc.phoneNo" ng-pattern="phoneRegex">
+                </div>
+            <span class="help-block text-center"
+                  ng-show="docSettings.phoneNo.$invalid && !docSettings.phoneNo.$pristine">
+                Introduceti numarul de telefon fara spatii sau alte caractere.
+            </span>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{'has-error' : docSettings.email.$invalid && !docSettings.email.$pristine, 'has-success' : docSettings.email.$valid && !docSettings.email.$pristine}">
+                <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-envelope fa-lg fa-fw"></i>
+            </span>
+                    <input type="email" class="form-control" placeholder="Email" aria-describedby="sizing-addon1"
+                           name="email" required ng-model="doc.email">
+                </div>
+            <span class="help-block text-center"
+                  ng-show="docSettings.email.$invalid && !docSettings.email.$pristine && !docSettings.email.$error.unique">Format email invalid.</span>
+            <span class="help-block text-center"
+                  ng-show="docSettings.email.$error.unique && !docSettings.email.$pristine">Acest email este deja inregistrat.</span>
+            </div>
+
+            <hr/>
+
+            <h3>Resetare parola</h3>
+
+            <div class="form-group"
+                 ng-class="{'has-error' : docSettings.password.$invalid && !docSettings.password.$pristine, 'has-success' : docSettings.password.$valid && !docSettings.password.$pristine}">
+                <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-unlock fa-lg fa-fw"></i>
+            </span>
+                    <input type="password" class="form-control" placeholder="Parola noua"
+                           aria-describedby="sizing-addon1"
+                           name="password" ng-model="doc.password" ng-model-options="{ updateOn: 'blur' }"
+                           ng-minlength="8">
+                </div>
+            <span class="help-block text-center"
+                  ng-show="docSettings.password.$error.minlength && !docSettings.password.$pristine">Parola trebuie sa aiva cel putin 8 caractere.</span>
+            <span class="help-block text-center"
+                  ng-show="!docSettings.password.$error.minlength && docSettings.password.$invalid && !docSettings.password.$pristine">Parola trebuie sa contina cel putin o litera mica, o cifra si o litera mare.</span>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{'has-error' : docSettings.password2.$invalid && !docSettings.password2.$pristine, 'has-success' : docSettings.password2.$valid && !docSettings.password2.$pristine}">
+                <div class="input-group">
+            <span class="input-group-addon">
+                <i class="fa fa-unlock fa-lg fa-fw"></i>
+            </span>
+                    <input type="password" class="form-control" placeholder="Repetati parola"
+                           aria-describedby="sizing-addon1" name="password2" ng-model="doc.password2">
+                </div>
+           <span class="help-block text-center"
+                 ng-show="docSettings.password2.$error.match && !docSettings.password2.$pristine">Parolele nu se potrivesc.</span>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="docSettings.$invalid">
+            Salvare Utilizator
+        </button>
+        <button class="btn btn-danger" type="button" ng-click="delete()" ng-show="user.edit">Stergere Utilizator
+        </button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Anulare</button>
+    </div>
+</script>
+
+<script src="js/angular.js"></script>
+<script src="js/angular-resource.js"></script>
+<script src="js/angular-animate.js"></script>
+<script src="js/ngTable.js"></script>
+<script src="js/ng-file-upload-shim.js"></script>
+<script src="js/ng-file-upload.min.js"></script>
+
+<script src="/js/ui-bootstrap-1.1.0.min.js"></script>
+<script src="js/angular/doctor/home.js"></script>
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
+<script src="js/metisMenu.js"></script>
+<script src="js/sb-admin-2.js"></script>
+<script src="js/forge-sha256.min.js"></script>
+</body>
+</html>

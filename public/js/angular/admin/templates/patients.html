@@ -1,0 +1,125 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Pacienti inregistrati</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+
+<div class="row" ng-cloak>
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Lista de pacienti inregistrati
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper table-responsive">
+                    <div class="row">
+                        <button class="btn btn-success pull-right newPuBtn" ng-click="newPatientPU()">
+                            <i class="fa fa-plus-square"></i>&nbsp;&nbsp;
+                            Adaugare Pacient
+                        </button>
+                    </div>
+                    <table ng-table-dynamic="tableParams with cols"
+                           class="table table-bordered table-striped table-hover">
+                        <tr ng-repeat="row in $data" ng-click="openModal(row)" class="rowClick">
+                            <td ng-repeat="col in $columns">{{row[col.field]}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="patients.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{patient.action}}</h3>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="patientForm" novalidate autocomplete="off">
+            <div class="form-group">
+                <div class="form-group"
+                     ng-class="{'has-error' : patientForm.fullName.$invalid && patientForm.fullName.$touched, 'has-success' : patientForm.fullName.$valid && !patientForm.fullName.$pristine}">
+                    <label>Numele pacientului*</label>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-tag fa-lg fa-fw"></i></span>
+                        <input type="text" ng-model="patient.fullName" required class="form-control"
+                               placeholder="Numele pacientului" name="fullName" ng-model-options="{ updateOn: 'blur' }"
+                               ng-pattern="fullNameRegex" autofocus>
+                    </div>
+                    <span class="help-block text-center"
+                          ng-show="patientForm.fullName.$invalid && patientForm.fullName.$touched">Va rugam sa introduceti numele complet al pacientului.</span>
+                </div>
+
+                <div class="form-group"
+                     ng-class="{'has-success' : patientForm.address.$valid && patient.address.length>0, 'has-warning' : patientForm.address.$touched &&patient.address.length==0, 'has-error' : patientForm.address.$invalid && !patientForm.address.$pristine}">
+                    <label>Adresa pacientului</label>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-map-marker fa-lg fa-fw"></i></span>
+                        <input type="text" ng-model="patient.address" class="form-control"
+                               placeholder="Adresa pacientului" name="address" ng-model-options="{ updateOn: 'blur' }"
+                               ng-pattern="/^[a-zA-Z.#\s\d\/]*\d[a-zA-Z.#\s\d\/]*$/">
+                    </div>
+                    <span class="help-block text-center"
+                          ng-show="patientForm.address.$invalid && !patientForm.address.$pristine">Adresa nu poate sa contina caractere speciale / trebuie sa contina cel putin un numar.</span>
+                </div>
+
+                <div class="form-group"
+                     ng-class="{'has-success' : patientForm.phoneNo.$valid && patient.phoneNo.length>0, 'has-warning' : patientForm.phoneNo.$touched &&patient.phoneNo.length==0, 'has-error' : patientForm.phoneNo.$invalid && !patientForm.phoneNo.$pristine}">
+                    <label>Numarul de telefon al pacientului</label>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-mobile fa-lg fa-fw"></i></span>
+                        <input type="text" ng-model="patient.phoneNo" class="form-control"
+                               placeholder="Numarul de telefon al pacientului" name="phoneNo"
+                               ng-model-options="{ updateOn: 'blur' }" ng-pattern="phoneRegex">
+                    </div>
+                    <span class="help-block text-center"
+                          ng-show="patientForm.phoneNo.$invalid && !patientForm.phoneNo.$pristine">Va rugam sa introduceti un numar de telefon valid.</span>
+                </div>
+
+                <div class="form-group"
+                     ng-class="{'has-success' : patientForm.email.$valid && patient.email.length>0, 'has-warning' : patientForm.email.$touched &&patient.email.length==0, 'has-error' : patientForm.email.$invalid && !patientForm.email.$pristine}">
+                    <label>Adresa email a pacientului</label>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-mobile fa-lg fa-fw"></i></span>
+                        <input type="email" ng-model="patient.email" class="form-control"
+                               placeholder="Adresa email a pacientului" name="email">
+                    </div>
+                    <span class="help-block text-center"
+                          ng-show="patientForm.email.$invalid && !patientForm.email.$pristine">Va rugam sa introduceti o adresa email valida.</span>
+                </div>
+
+                <div class="form-group"
+                     ng-class="{'has-error' : patientForm.patientDoctor.$invalid && patientForm.patientDoctor.$touched,
+                     'has-success' : patientForm.patientDoctor.$valid && patientForm.patientDoctor.$touched}">
+                    <label>Doctorul pacientului*</label>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user-md fa-lg fa-fw"></i></span>
+                        <select name="patientDoctor" id="patientDoctor" class="form-control"
+                                ng-options="doctor.fullName for doctor in doctorList.options track by doctor.id"
+                                ng-model="doctorList.selectedOption" required>
+                        </select>
+                    </div>
+                    <span class="help-block text-center"
+                          ng-show="patientForm.patientDoctor.$invalid && patientForm.patientDoctor.$touched && !patientForm.patientDoctor.$error.exists">Va rugam sa selectati un medic.</span>
+                     <span class="help-block text-center"
+                           ng-show="patientForm.patientDoctor.$error.exists && patientForm.patientDoctor.$touched">Pacientul este deja inregistrat la acest doctor.</span>
+                </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()"
+                ng-disabled="patientForm.$invalid">
+            Salvare pacient
+        </button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Anulare</button>
+    </div>
+</script>

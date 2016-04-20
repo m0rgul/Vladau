@@ -1,0 +1,101 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Utilizatori</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+
+<div class="row" ng-cloak>
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Lista utilizatori inregistrati.
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper table-responsive">
+                    <div class="row">
+                        <button class="btn btn-success pull-right newPuBtn" ng-click="newUserPU()">
+                            <i class="fa fa-plus-square"></i>&nbsp;&nbsp;
+                            Utilizator Nou
+                        </button>
+                    </div>
+                    <table ng-table-dynamic="tableParams with cols"
+                           class="table table-bordered table-striped table-hover">
+                        <tr ng-repeat="row in $data" ng-click="openModal(row)" class="rowClick">
+                            <td ng-repeat="col in $columns">{{row[col.field]}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="users.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{user.action}}</h3>
+    </div>
+    <div class="modal-body">
+        <form role="form" name="userForm" novalidate autocomplete="off">
+            <div class="form-group"
+                 ng-class="{'has-error' : userForm.username.$invalid && userForm.username.$touched, 'has-success' : userForm.username.$valid && !userForm.username.$pristine}">
+                <label>Nume utilizator *</label>
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user-md fa-lg fa-fw"></i></span>
+                    <input type="text" ng-model="user.username" required class="form-control"
+                           placeholder="Nume Utilizator" name="username" ng-disabled="user.edit"
+                           ng-model-options="{ updateOn: 'blur' }"
+                           ng-minlength="6">
+                </div>
+
+                <span class="help-block text-center"
+                      ng-show="userForm.username.$error.unique && userForm.username.$touched && !userForm.username.$error.minlength">Acest nume de utilizator este deja folosit.</span>
+                <span class="help-block text-center"
+                      ng-show="userForm.username.$error.minlength && !userForm.username.$pristine">Numele de utilizator trebuie sa aiva cel putin 6 caractere.</span>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{'has-error' : userForm.email.$invalid && !userForm.email.$pristine, 'has-success' : userForm.email.$valid && !userForm.email.$pristine}">
+                <label>Email-ul Utilizatorului *</label>
+
+                <div class="input-group">
+                    <span class="input-group-addon"> <i class="fa fa-envelope fa-lg fa-fw"></i></span>
+                    <input type="email" ng-model="user.email" required class="form-control"
+                           placeholder="Email-ul Utilizatorului" name="email" ng-model-options="{ updateOn: 'blur' }">
+                </div>
+
+                <span class="help-block text-center"
+                      ng-show="userForm.email.$invalid && !userForm.email.$pristine && !userForm.email.$error.unique">Format email invalid.</span>
+                <span class="help-block text-center"
+                      ng-show="userForm.email.$error.unique && !userForm.email.$pristine">Acest email este deja inregistrat.</span>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="isAdmin" ng-model="user.userControl"> Manager Conturi
+                        Utilizatori?
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="isDoctor" ng-model="user.doctorControl"> Manager Conturi
+                        Doctori?
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="userForm.$invalid">
+            Salvare Utilizator
+        </button>
+        <button class="btn btn-danger" type="button" ng-click="delete()" ng-show="user.edit">Stergere Utilizator
+        </button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Anulare</button>
+    </div>
+</script>

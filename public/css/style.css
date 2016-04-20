@@ -1,0 +1,505 @@
+.row {
+    margin: 0;
+    padding: 0;
+}
+
+.rowClick {
+    cursor: pointer;
+}
+
+.checkbox {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.controlRow .btn {
+    margin-bottom: 15px;
+}
+
+/* Login pages */
+
+#loginWindow {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    border: 1px solid #eee;
+    overflow: hidden;
+    width: 350px;
+    min-height: 480px;
+    padding: 30px;
+    box-shadow: 10px 10px 5px #888888;
+}
+
+#loginWindow.docLogin {
+    min-height: 540px;
+    width: 350px;
+}
+
+#loginWindow .logoImg,
+#passRecovery .logoImg,
+#userAccountSettings .logoImg {
+    position: relative;
+    display: block;
+    max-height: 120px;
+    margin: 15px auto 30px;
+    text-align: center;
+}
+
+#loginWindow form .input-group {
+    margin-bottom: 20px;
+}
+
+#loginWindow form .btn {
+    width: 80%;
+    padding: 8px 10px;
+    font-size: 16px;
+}
+
+#loginWindow form .registerBtn {
+    margin-top: 10px;
+}
+
+#loginWindow form#registerForm {
+    display: none;
+}
+
+#loginWindow form#registerForm .help-block {
+    margin-top: -10px;
+}
+
+.loginFooter {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 85px;
+    background: #666;
+}
+
+p.forgotPass, p.contactUs {
+    position: relative;
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    margin-bottom: 0;
+    font-size: 13px;
+    line-height: 14px;
+    color: #ddd;
+}
+
+p.contactUs {
+    margin-top: 10px;
+}
+
+p.contactUs a {
+    position: relative;
+    display: block;
+}
+
+p.forgotPass a, p.contactUs a {
+    font-size: 14px;
+    line-height: 15px;
+    font-style: italic;
+    color: white;
+}
+
+.errorMsg {
+    color: #a94442;
+}
+
+.successMsg {
+    color: #3c763d;
+}
+
+#loginError {
+    display: none;
+    position: relative;
+    text-align: center;
+    font-style: italic;
+    padding: 3px 0;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+}
+
+#message {
+    position: relative;
+    display: block;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+.newPuBtn {
+    margin: 10px 0;
+    min-width: 150px;
+}
+
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+/*
+*   doctor page
+*/
+
+body#doctorPage .container {
+    margin-top: 30px;
+}
+
+.row.columnHeader {
+    margin-bottom: 10px;
+}
+
+body#doctorPage .fa-lg {
+    line-height: normal !important;
+}
+
+.row.columnContent .list-group {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.clearSearch .btn {
+    border-left: none;
+}
+
+.clearSearch .btn:hover {
+    background: #fff;
+}
+
+.clearSearch .btn .fa {
+    color: #aaa;
+}
+
+.clearSearch .btn:hover .fa {
+    color: red;
+}
+
+#patientList .list-group-item .fa {
+    margin-right: 15px;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+
+#patientList .list-group-item:hover .fa {
+    color: #52b7e6;
+    margin-right: 1px;
+}
+
+/* Pass reset */
+
+#passRecovery {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    border: 1px solid #eee;
+    overflow: hidden;
+    width: 500px;
+    min-height: 200px;
+    padding: 30px;
+    box-shadow: 10px 10px 5px #888888;
+}
+
+/* file select */
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+/* admin settings */
+#userAccountSettings {
+    overflow: hidden;
+    width: 500px;
+    min-height: 200px;
+    margin: 50px auto;
+}
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
+}
+
+.footer {
+    /*position: absolute;*/
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 100px;
+    padding-top: 15px;
+    border-top: 1px solid #e7e7e7;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body#doctorPage {
+    /* Margin bottom by footer height */
+    margin-bottom: 110px;
+}
+
+body#doctorPage .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+.footer .row {
+    margin: 0;
+}
+
+.footer .container .logos {
+    text-align: center;
+}
+
+.footer .container .logos .logo {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 20px;
+}
+
+.footer .container .row a,
+.footer .container .row a:hover {
+    text-decoration: none;
+}
+
+.footer .logo p {
+    font-style: italic;
+    color: #888;
+}
+
+.footer .container .row a img {
+    max-height: 30px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+.footer .container .row span {
+    display: inline-block;
+    vertical-align: middle;
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+    margin: 0 20px
+}
+
+.footer .container .links {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.footer .helpText {
+    background: #52b7e6;
+    color: #eff;
+    padding: 10px 0 5px;
+}
+
+.footer .helpText span {
+    font-size: 110%;
+    margin-left: 5px;
+}
+
+.footer .helpText a,
+.footer .helpText a:hover {
+    color: white;
+    font-style: normal;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+/*
+*   eye candy
+*/
+@-webkit-keyframes hvr-icon-drop {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0;
+        -webkit-transform: translateY(-100%);
+        transform: translateY(-100%);
+    }
+
+    51%,
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes hvr-icon-drop {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0;
+        -webkit-transform: translateY(-100%);
+        transform: translateY(-100%);
+    }
+
+    51%,
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Icon Drop */
+.hvr-icon-drop {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    padding-left: 25px;
+}
+
+.hvr-icon-drop:before {
+    content: "\f003";
+    position: absolute;
+    left: 3px;
+    top: -2px;
+    opacity: 1;
+    padding: 0 1px;
+    font-family: FontAwesome;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    font-size: 18px;
+}
+
+.hvr-icon-drop:hover:before, .hvr-icon-drop:focus:before, .hvr-icon-drop:active:before {
+    opacity: 0;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-animation-name: hvr-icon-drop;
+    animation-name: hvr-icon-drop;
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+    -webkit-animation-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+    animation-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+}
+
+.appDownload {
+    position: relative;
+    display: inline-block;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+.appDownload .fa {
+    margin-right: 10px;
+    position: relative;
+    display: inline;
+    vertical-align: middle;
+    color: #ee008c;
+
+}
+
+.appDownload p {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    color: #ee008c;
+}
+
+.appDownload p span {
+    display: block;
+    font-weight: bold;
+    font-size: 110%;
+}
+
+a {
+    color: #52b7e6;
+}
+
+a:hover, a:active {
+    color: #2e4a9f;
+}
+
+.btn-success {
+    background: #add36b;
+    border-color: #a4ca61;
+}
+
+.btn-success:hover, .btn-success:active {
+    background: #b5dd70;
+
+}
+
+.btn-warning {
+    background: #d3232a;
+    border-color: #c52228;
+}
+
+.btn-warning:focus, .btn-warning.focus {
+    background: red;
+}
+
+.btn-warning:hover, .btn-warning:active {
+    background: #b41c21;
+}
+
+.btn-primary {
+    background: #52b7e6;
+    border-color: #48b0e2;
+}
+
+.btn-primary:hover, .btn-primary:active {
+    background: #43a0cc;
+}
+
+.navbar-brand {
+    padding: 5px 15px;
+}
+
+#doctorPage .navbar-brand {
+    padding: 10px 15px;
+}
+
+.navbar-brand img {
+    max-height: 40px;
+}
